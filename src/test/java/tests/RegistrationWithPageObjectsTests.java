@@ -1,40 +1,57 @@
 package tests;
 
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import pages.RegistrationPage;
+
+import java.util.Locale;
+
+import static utils.RandomUtils.*;
 
 
 public class RegistrationWithPageObjectsTests extends TestBase {
 
     RegistrationPage registrationPage = new RegistrationPage();
+    Faker faker = new Faker(new Locale("en-gb"));
+    String firstName = faker.name().firstName();
+    String lastName = faker.name().lastName();
+    String userEmail = faker.internet().emailAddress();
+    String userGender = faker.options().option("Male", "Female", "Other");
+    String userNumber = getRandomPhone();
+    String[] userDateOfBirth = getRandomDateOfBirth();
+    String streetAddress = faker.address().streetAddress();
+    String userSubject = getRandomSubject();
+    String userHobbies = faker.options().option("Sports", "Reading", "Music");
+    String[] userStateAndCity = getRandomStateAndCity();
+
 
     @Test
-    void successfulRegistrationTest() {
+    void successfulRegistrationTestWithFaker() {
         registrationPage.openPage()
 
-                        .setFirstName("Ramzil")
-                        .setLastName("Fattakhov")
-                        .setUserEmail("ramzilf@gmail.com")
-                        .setGender("Other")
-                        .setUserNumber("1234567890")
-                        .setDateOfBirth("30", "July", "2008")
-                        .setUserSubject("Math")
-                        .setHobbies("Sports")
+                        .setFirstName(firstName)
+                        .setLastName(lastName)
+                        .setUserEmail(userEmail)
+                        .setGender(userGender)
+                        .setUserNumber(userNumber)
+                        .setDateOfBirth(userDateOfBirth[0], userDateOfBirth[1], userDateOfBirth[2])
+                        .setUserSubject(userSubject)
+                        .setHobbies(userHobbies)
                         .uploadPicture("img/pic.png")
-                        .setUserCurrentAddress("Some address 1")
-                        .setUserStateAndCity("NCR", "Delhi")
+                        .setUserCurrentAddress(streetAddress)
+                        .setUserStateAndCity(userStateAndCity[0], userStateAndCity[1])
                         .submitRegistrationForm()
                         .checkModalTitle("Thanks for submitting the form")
 
-                        .checkResult("Student Name", "Ramzil Fattakhov")
-                        .checkResult("Student Email", "ramzilf@gmail.com")
-                        .checkResult("Gender", "Other")
-                        .checkResult("Mobile", "1234567890")
-                        .checkResult("Date of Birth", "30 July,2008")
-                        .checkResult("Subjects", "Maths")
-                        .checkResult("Hobbies", "Sports")
-                        .checkResult("Address", "Some address 1")
-                        .checkResult("State and City", "NCR Delhi")
+                        .checkResult("Student Name", firstName + " " + lastName)
+                        .checkResult("Student Email", userEmail)
+                        .checkResult("Gender", userGender)
+                        .checkResult("Mobile", userNumber)
+                        .checkResult("Date of Birth", userDateOfBirth[0] + " " + userDateOfBirth[1] + "," + userDateOfBirth[2])
+                        .checkResult("Subjects", userSubject)
+                        .checkResult("Hobbies", userHobbies)
+                        .checkResult("Address", streetAddress)
+                        .checkResult("State and City", userStateAndCity[0] + " " + userStateAndCity[1])
                         .closeModalForm()
                         .checkModalFormIsClosed();
 
@@ -44,18 +61,18 @@ public class RegistrationWithPageObjectsTests extends TestBase {
     void requiredFieldsIsFilledTest() {
         registrationPage.openPage()
 
-                .setFirstName("Ramzil")
-                .setLastName("Fattakhov")
-                .setGender("Male")
-                .setUserNumber("1234567890")
-                .setDateOfBirth("30", "July", "2008")
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setGender(userGender)
+                .setUserNumber(userNumber)
+                .setDateOfBirth(userDateOfBirth[0], userDateOfBirth[1], userDateOfBirth[2])
                 .submitRegistrationForm()
                 .checkModalTitle("Thanks for submitting the form")
 
-                .checkResult("Student Name", "Ramzil Fattakhov")
-                .checkResult("Gender", "Male")
-                .checkResult("Mobile", "1234567890")
-                .checkResult("Date of Birth", "30 July,2008")
+                .checkResult("Student Name", firstName + " " + lastName)
+                .checkResult("Gender", userGender)
+                .checkResult("Mobile", userNumber)
+                .checkResult("Date of Birth", userDateOfBirth[0] + " " + userDateOfBirth[1] + "," + userDateOfBirth[2])
                 .closeModalForm()
                 .checkModalFormIsClosed();
 
@@ -65,44 +82,13 @@ public class RegistrationWithPageObjectsTests extends TestBase {
     void checkSymbolsInMobileInput() {
         registrationPage.openPage()
 
-                .setFirstName("Ramzil")
-                .setLastName("Fattakhov")
-                .setGender("Male")
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setGender(userGender)
                 .setUserNumber("//////////")
                 .submitRegistrationForm()
                 .checkMobileInputHasWrongType();
 
     }
 
-//    @Test
-//    void successfulRegistrationTest2() {
-//        open("/automation-practice-form");
-//        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
-//        executeJavaScript("$('#fixedban').remove()");
-//        executeJavaScript("$('footer').remove()");
-//
-//        $(firstNameLocator).setValue("Alex");
-//        $("#lastName").setValue("Egorov");
-//        $("#userEmail").setValue("alex@egorov.com");
-//        $("#genterWrapper").$(byText("Other")).click();
-//        $("#userNumber").setValue("1234567890");
-//        $("#dateOfBirthInput").click();
-//        $(".react-datepicker__month-select").selectOption("July");
-//        $(".react-datepicker__year-select").selectOption("2008");
-//        $(".react-datepicker__day--030:not(.react-datepicker__day--outside-month)").click();
-//        $("#subjectsInput").setValue("Math").pressEnter();
-//        $("#hobbiesWrapper").$(byText("Sports")).click();
-//        $("#uploadPicture").uploadFromClasspath("img/1.png");
-//        $("#currentAddress").setValue("Some address 1");
-//        $("#state").click();
-//        $("#stateCity-wrapper").$(byText("NCR")).click();
-//        $("#city").click();
-//        $("#stateCity-wrapper").$(byText("Delhi")).click();
-//        $("#submit").click();
-//
-//        $(".modal-dialog").should(appear);
-//        $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
-//        $(".table-responsive").shouldHave(text("Alex"), text("Egorov"),
-//                text("alex@egorov.com"), text("1234567890"));
-//    }
 }
