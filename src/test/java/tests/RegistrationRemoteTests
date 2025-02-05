@@ -25,14 +25,13 @@ public class RegistrationRemoteTests {
 
     @Test
     @Tag("demoqa")
-    void successfulRegistrationRemoteTest() {
+    void successfulRegistrationTest() {
         step("Open from", () -> {
             open("/automation-practice-form");
             $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
             executeJavaScript("$('#fixedban').remove()");
             executeJavaScript("$('footer').remove()");
         });
-
         step("Fill form", () -> {
             $("#firstName").setValue("Alex");
             $("#lastName").setValue("Egorov");
@@ -53,7 +52,6 @@ public class RegistrationRemoteTests {
             $("#stateCity-wrapper").$(byText("Delhi")).click();
             $("#submit").click();
         });
-
         step("Verify results", () -> {
             $(".modal-dialog").should(appear);
             $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
