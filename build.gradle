@@ -51,3 +51,11 @@ task simple_test(type: Test) {
     testClassesDirs = testing.suites.test.sources.output.classesDirs
     classpath = testing.suites.test.sources.runtimeClasspath
 }
+
+task demoqa_test(type: Test) {
+    useJUnitPlatform {
+        includeTags("demoqa")
+    }
+    testClassesDirs = testing.suites.test.sources.output.classesDirs
+    classpath = testing.suites.test.sources.runtimeClasspath
+}
