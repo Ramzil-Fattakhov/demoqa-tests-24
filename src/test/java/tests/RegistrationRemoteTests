@@ -25,7 +25,7 @@ public class RegistrationRemoteTests {
 
     @Test
     @Tag("demoqa")
-    void successfulRegistrationTest() {
+    void successfulRegistrationRemoteTest() {
         step("Open from", () -> {
             open("/automation-practice-form");
             $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
