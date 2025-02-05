@@ -11,6 +11,7 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
+@Tag("demoqa")
 public class RegistrationRemoteTests {
 
     @BeforeAll
@@ -23,7 +24,6 @@ public class RegistrationRemoteTests {
     }
 
     @Test
-    @Tag("demoqa")
     void successfulRegistrationTest() {
         step("Open from", () -> {
             open("/automation-practice-form");
