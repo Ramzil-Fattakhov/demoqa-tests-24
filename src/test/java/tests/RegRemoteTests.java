@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
-public class RegistrationRemoteTests {
+public class RegRemoteTests {
 
     @BeforeAll
     static void beforeAll() {
@@ -23,6 +23,7 @@ public class RegistrationRemoteTests {
         Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
     }
 
+    @Tag("demoqa")
     @Test
     void successfulRegistrationTest() {
         step("Open from", () -> {
