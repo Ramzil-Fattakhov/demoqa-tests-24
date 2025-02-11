@@ -46,6 +46,8 @@ public class RegRemoteTests {
         Attach.pageSource();
         Attach.browserConsoleLogs();
         Attach.addVideo();
+
+        closeWebDriver();
     }
 
     @Tag("demoqa")
