@@ -38,15 +38,26 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-test {
+tasks.withType(Test) {
     useJUnitPlatform()
-}
+    systemProperties(System.getProperties())
 
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+}
 
 task simple_test(type: Test) {
     useJUnitPlatform {
         includeTags("simple")
     }
-    testClassesDirs = testing.suites.test.sources.output.classesDirs
-    classpath = testing.suites.test.sources.runtimeClasspath
+}
+
+task remote_test(type: Test) {
+    useJUnitPlatform{
+        includeTags("remote")
+    }
 }

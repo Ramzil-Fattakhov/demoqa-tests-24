@@ -50,7 +50,7 @@ public class RegRemoteTests {
         closeWebDriver();
     }
 
-    @Tag("demoqa")
+    @Tag("remote")
     @Test
     void successfulRegistrationTest() {
         step("Open from", () -> {
