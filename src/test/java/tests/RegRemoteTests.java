@@ -19,37 +19,9 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
-public class RegRemoteTests {
-
-    @BeforeAll
-    static void beforeAll() {
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
-//        Configuration.browser = "chrome";
-//        Configuration.timeout = 10000;
-//        Configuration.holdBrowserOpen = true;
-        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
-
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("selenoid:options", Map.of(
-                "enableVNC", true,
-                "enableVideo", true
-        ));
-        Configuration.browserCapabilities = capabilities;
-
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-    }
+public class RegRemoteTests extends TestBase {
 
 
-    @AfterEach
-    void addAttachments() {
-        Attach.screenshotAs("Last screenshot");
-        Attach.pageSource();
-        Attach.browserConsoleLogs();
-        Attach.addVideo();
-
-        closeWebDriver();
-    }
 
     @Test
     @Tag("remote")

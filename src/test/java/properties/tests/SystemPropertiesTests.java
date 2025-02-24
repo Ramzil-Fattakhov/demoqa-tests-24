@@ -47,4 +47,5 @@ public class SystemPropertiesTests {
         String message = format("Hello, %s!", name);
         System.out.println(message);
     }
+
 }
